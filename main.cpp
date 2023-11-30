@@ -1,85 +1,45 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sstream>
 
 using namespace std;
 
-struct ColorConsole
+void load_script(const char* filename, bool show_script = false)
 {
-    static constexpr auto fg_blue = "\033[34m";
-    static constexpr auto bg_white = "\033[47m";
-    static constexpr auto reset = "\033[0m";
-};
+    ifstream file(filename);
 
-class ConsoleBox
-{
-public:
-    void new_text() {/*...*/}
-    static void set_text(const string &text)
+    if (!file.is_open())
     {
-        cout << text << endl;
+        cerr << "Error: No se pudo abrir el archivo " << filename << endl;
+        return;
     }
-};
 
-ConsoleBox *consoleBox = new ConsoleBox; // suponemos que ya está inicializado
+    string script((istreambuf_iterator<char>(file)), {});
 
-void load_script(const string &filename, bool show_script = false)
-{
-    try
+    file.close();
+
+    if (show_script)
     {
-        ifstream file(filename);
-
-        if (!file.is_open())
-        {
-            throw runtime_error("Error al abrir el archivo: " + filename);
-        }
-
-        stringstream buffer;
-        buffer << file.rdbuf();
-        string script = buffer.str();
-
-        if (show_script)
-        {
-            cout << ColorConsole::fg_blue << ColorConsole::bg_white << script << ColorConsole::reset << endl;
-        }
-
-        consoleBox->new_text();
-        ConsoleBox::set_text(script);
-    }
-    catch (const exception &e)
-    {
-        throw runtime_error("Error durante la lectura del archivo: " + string(e.what()));
+        cout << "Contenido del archivo " << filename << ":\n";
+        cout << script << endl;
     }
 }
 
 void load_script()
 {
     string filename;
-    cout << "Archivo: ";
+    cout << "Ingrese el nombre del archivo: ";
     cin >> filename;
 
-    try
-    {
-        load_script(filename, true);
-    }
-    catch (const exception &e)
-    {
-        cerr << e.what() << endl;
-    }
+    load_script(filename.c_str(), true);
 }
 
 int main()
 {
-    try
-    {
-        load_script(); // Pide el nombre del archivo al usuario y muestra el contenido
-        load_script("ejemplo.txt", true); // Carga un archivo predefinido y muestra el contenido
-    }
-    catch (const exception &e)
-    {
-        cerr << "Error: " << e.what() << endl;
-    }
+    // Uso de las funciones load_script
+    load_script(); // Pide el nombre del archivo al usuario y muestra el contenido
+    // Puedes probar también con load_script("nombre_archivo.txt", true);
 
     return 0;
 }
+
