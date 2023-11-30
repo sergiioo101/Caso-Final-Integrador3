@@ -71,9 +71,15 @@ void load_script()
 
 int main()
 {
-    // Ejemplo de uso
-    load_script(); // Pide el nombre del archivo al usuario y muestra el contenido
-    load_script("ejemplo.txt", true); // Carga un archivo predefinido y muestra el contenido
+    try
+    {
+        load_script(); // Pide el nombre del archivo al usuario y muestra el contenido
+        load_script("ejemplo.txt", true); // Carga un archivo predefinido y muestra el contenido
+    }
+    catch (const exception &e)
+    {
+        cerr << "Error: " << e.what() << endl;
+    }
 
     return 0;
 }
