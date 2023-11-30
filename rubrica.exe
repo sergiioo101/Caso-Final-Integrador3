@@ -1,4 +1,4 @@
-Rubrica
+Rúbrica
 Carga de scripts (50 puntos)
 
 Se proporciona una implementación correcta de load_script(const char* filename, bool show_script = false) que carga correctamente el archivo dado y muestra su contenido si show_script es verdadero. (25 puntos)
