@@ -66,3 +66,12 @@ void load_script()
         std::cerr << e.what() << std::endl;
     }
 }
+
+int main()
+{
+    // Ejemplo de uso
+    load_script(); // Pide el nombre del archivo al usuario y muestra el contenido
+    load_script("ejemplo.txt", true); // Carga un archivo predefinido y muestra el contenido
+
+    return 0;
+}
