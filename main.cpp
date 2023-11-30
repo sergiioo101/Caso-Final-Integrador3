@@ -3,6 +3,8 @@
 #include <string>
 #include <sstream>
 
+using namespace std;
+
 struct ColorConsole
 {
     static constexpr auto fg_blue = "\033[34m";
@@ -14,56 +16,56 @@ class ConsoleBox
 {
 public:
     void new_text() {/*...*/}
-    void set_text(const std::string &text)
+    static void set_text(const string &text)
     {
-        std::cout << text << std::endl;
+        cout << text << endl;
     }
 };
 
 ConsoleBox *consoleBox = new ConsoleBox; // suponemos que ya está inicializado
 
-void load_script(const std::string &filename, bool show_script = false)
+void load_script(const string &filename, bool show_script = false)
 {
     try
     {
-        std::ifstream file(filename);
+        ifstream file(filename);
 
         if (!file.is_open())
         {
-            throw std::runtime_error("Error al abrir el archivo: " + filename);
+            throw runtime_error("Error al abrir el archivo: " + filename);
         }
 
-        std::stringstream buffer;
+        stringstream buffer;
         buffer << file.rdbuf();
-        std::string script = buffer.str();
+        string script = buffer.str();
 
         if (show_script)
         {
-            std::cout << ColorConsole::fg_blue << ColorConsole::bg_white << script << ColorConsole::reset << std::endl;
+            cout << ColorConsole::fg_blue << ColorConsole::bg_white << script << ColorConsole::reset << endl;
         }
 
         consoleBox->new_text();
-        consoleBox->set_text(script);
+        ConsoleBox::set_text(script);
     }
-    catch (const std::exception &e)
+    catch (const exception &e)
     {
-        throw std::runtime_error("Error durante la lectura del archivo: " + std::string(e.what()));
+        throw runtime_error("Error durante la lectura del archivo: " + string(e.what()));
     }
 }
 
 void load_script()
 {
-    std::string filename;
-    std::cout << "Archivo: ";
-    std::cin >> filename;
+    string filename;
+    cout << "Archivo: ";
+    cin >> filename;
 
     try
     {
         load_script(filename, true);
     }
-    catch (const std::exception &e)
+    catch (const exception &e)
     {
-        std::cerr << e.what() << std::endl;
+        cerr << e.what() << endl;
     }
 }
 
