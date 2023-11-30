@@ -50,3 +50,19 @@ void load_script(const std::string &filename, bool show_script = false)
         throw std::runtime_error("Error durante la lectura del archivo: " + std::string(e.what()));
     }
 }
+
+void load_script()
+{
+    std::string filename;
+    std::cout << "Archivo: ";
+    std::cin >> filename;
+
+    try
+    {
+        load_script(filename, true);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
+}
